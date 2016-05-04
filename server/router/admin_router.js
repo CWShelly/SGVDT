@@ -16,6 +16,7 @@ var getAllData = function() {
           date: res.body[i].occurred_date_or_date_range_start.slice(0, 10),
           day: res.body[i].occurred_date_or_date_range_start.slice(8, 10),
           month: res.body[i].month,
+          monthYr: res.body[i].occurred_date_or_date_range_start.slice(0, 7),
           year: res.body[i].year,
           time: res.body[i].occurred_date_or_date_range_start.slice(11),
           longitude: res.body[i].longitude,

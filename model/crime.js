@@ -6,6 +6,7 @@ var crimeSchema = new mongoose.Schema({
   date: { type: String },
   day: { type: Number },
   month: { type: Number },
+  monthYr: { type: String },
   year: { type: Number },
   time: { type: String },
   longitude: { type: Number },

@@ -25,13 +25,14 @@ var dailyData = function() {
         return eH(err);
       }
       dailyUpdateArray = [];
-      console.log("body = ", res.body);
+      console.log('body = ', res.body);
       for (var i = 0; i < res.body.length; i++) {
         var newCrime = new Crime({
           offense: res.body[i].offense_type,
           date: res.body[i].occurred_date_or_date_range_start.slice(0, 10),
           day: res.body[i].occurred_date_or_date_range_start.slice(8, 10),
           month: res.body[i].month,
+          monthYr: res.body[i].occurred_date_or_date_range_start.slice(0, 7),
           year: res.body[i].year,
           time: res.body[i].occurred_date_or_date_range_start.slice(11),
           longitude: res.body[i].longitude,
@@ -39,15 +40,20 @@ var dailyData = function() {
           zone: res.body[i].zone_beat,
           rms_cdw_id: res.body[i].rms_cdw_id
         });
+          console.log(res.body[i].occurred_date_or_date_range_start.slice(0, 7));
+
+
         dailyUpdateArray.push(newCrime);
-      };
+      }
+
+
       for (var j = 0; j < dailyUpdateArray.length; j++) {
-        console.log("gonna get " , dailyUpdateArray[j].rms_cdw_id );
+        // console.log('gonna get ', dailyUpdateArray[j].rms_cdw_id );
         Crime.find({
           rms_cdw_id: dailyUpdateArray[j].rms_cdw_id
         }, (err, data) => {
-          console.log("data = ", data);
-          console.log("about to save " , dailyUpdateArray[j] );
+        //   console.log('data = ', data);
+        //   console.log('about to save ', dailyUpdateArray[j] );
           if (!data) {
             dailyUpdateArray[j].save((err, data) => {
               if (err) {
@@ -57,10 +63,12 @@ var dailyData = function() {
           }
         });
       }
+
+    //   console.log(dailyUpdateArray.length);
       console.log('Today\'s data is in the array');
     });
 };
 setInterval(() => {
   dailyData();
-  console.log("getting data");
+  console.log('getting data');
 }, 4000);
